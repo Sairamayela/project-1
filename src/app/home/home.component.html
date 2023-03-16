@@ -1,0 +1,124 @@
+<mat-tab-group>
+  <mat-tab label="Creat-Student">
+    <form [formGroup]="studentform">
+      <label for="">Name</label>
+      <input type="text" formControlName="name">
+      <br>
+      <label for="">Father Name</label>
+      <input type="text" formControlName="class">
+      <br>
+      <label for="">Email</label>
+      <input type="text" formControlName="fatherName">
+      <br>
+      <label for="">Dob</label>
+      <input type="text" formControlName="dob">
+      <br>
+      <div formGroupName="address">
+        <br>
+        <label for="">Address Line</label>
+        <input type="text" formControlName="addressLine">
+        <br>
+        <label for="">City</label>
+        <input type="text" formControlName="city">
+        <br>
+        <label for="">State</label>
+        <input type="text" formControlName="state">
+        <br>
+        <label for="">Pincode</label>
+        <input type="text" formControlName="pincode">
+        <br>
+      </div>
+      <br>
+      <button mat-flat-button color="warn" (click)="add()">Add</button>
+      <div formArrayName="marks">
+        <div *ngFor="let mark of marksFormArray.controls let i = index">
+
+          <div formGroupName="{{i}}">
+            <h4>class {{i+1}}</h4>
+            <label for="">class</label>
+            <input type="text" formControlName="class">
+            <br>
+            <label for="">year</label>
+            <input type="text" formControlName="year">
+            <br>
+            <label for="">percentage</label>
+            <input type="text" formControlName="percentage">
+            <br>
+            <button mat-fab color="primary" aria-label="Example icon button with a delete icon" (click)="delete(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <label for="">Type :</label>
+      <label for="">dayscholor</label>
+      <input type="radio" name="type" formControlName="type" value="dayscholor">
+      <label for="">residentiol</label>
+      <input type="radio" name="type" formControlName="type" value="residentiol">
+      <br>
+      <div *ngIf="studentform.get('type')?.value=='dayscholor'">
+          <label for="">bus free :</label>
+          <input type="text" formControlName="busFee">
+      </div>
+  
+      <div *ngIf="studentform.get('type')?.value=='residentiol'">
+          <label for="">hostal fee :</label>
+          <input type="text" formControlName="hostalFee">
+      </div>
+      <button mat-raised-button color="primary" (click)="submit()">submit</button>
+
+  
+  
+    </form>
+
+  </mat-tab>
+  <mat-tab label="All-Students">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let element">{{element.position}}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef>Weight</th>
+        <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef>Symbol</th>
+        <td mat-cell *matCellDef="let element">{{element.symbol}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+        *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div>
+      <h3>
+        Click Log
+      </h3>
+    </div>
+
+    <div *ngIf="!clickedRows.size">
+      Clicked rows will be logged here
+    </div>
+
+    <ul>
+      <li *ngFor="let clickedRow of clickedRows">
+        Clicked on {{clickedRow.name}}
+      </li>
+    </ul>
+  </mat-tab>
+</mat-tab-group>
